@@ -23,10 +23,9 @@ Asegúrate de haber instalado las siguientes dependencias:
 - [fs](https://nodejs.org/api/fs.html): Módulo integrado de Node.js para interactuar con el sistema de archivos.
 
 Puedes instalarlas usando el siguiente comando:
-
+```
 npm install express axios puppeteer fs
-
-
+```
 
 ## Uso
 
