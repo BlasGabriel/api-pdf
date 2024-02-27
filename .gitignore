@@ -1,0 +1,5 @@
+# Ignorar directorio node_modules
+node_modules/
+
+# Ignorar archivos .DS_Store específicos de macOS
+.DS_Store
