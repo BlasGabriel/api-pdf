@@ -12,11 +12,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Ruta para manejar la solicitud POST
-// Ruta para manejar la solicitud POST
 app.post("/generate-pdf", async (req, res) => {
     try {
       const htmlContent = await makeHtmlRequest(req.body); // Llama a la función para obtener el contenido HTML
       const outputPath = "output.pdf";
+      // console.log(res);
+      // console.log(req);
+
       const data = {
         cdesctporig: htmlContent.items[0].cdesctporig,
         cdesctporig2: htmlContent.items[0].cdesctporig2,
@@ -154,8 +156,8 @@ async function htmlToPdf(tableHtml, outputPath, data) {
             /*    font-size: calc(1em + 0.5vw);    */
           }
           .t-Report-cell {
-            text-align: center;
-            /* font-size: 10px; */
+            /* text-align: center;
+             font-size: 10px; */
             width: 70px;
           }
           .VER {
@@ -238,7 +240,7 @@ async function htmlToPdf(tableHtml, outputPath, data) {
       // Verificar si se encontró una coincidencia
       if (match !== null && numFilasSegResultN > 18) {
         fullHtml = fullHtml.replace(
-          /<tr\s+id="utima_linea"\s+class="CoCo10">/g,
+          /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
           `</table> 
           <div>
             <h1>
@@ -329,8 +331,8 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     await page.setContent(fullHtml);
     await page.pdf(pdfOptions);
      // Escribir el contenido HTML combinado en un archivo HTML
-  //    const htmlFilePath = "output.html";
-  //    fs.writeFileSync(htmlFilePath, fullHtml);
+    //  const htmlFilePath = "output.html";
+    //  fs.writeFileSync(htmlFilePath, fullHtml);
    
 
   await browser.close();
