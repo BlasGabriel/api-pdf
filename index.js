@@ -60,7 +60,7 @@ app.post("/generate-pdf", async (req, res) => {
   
 
 async function makeHtmlRequest(body) {
-  const url = "http://190.128.136.58:8080/apex/scvchds/aq/aqHtml";
+  const url = "http://143.255.140.32:5580/ords/scvchds/aq/aqHtml";
 
   const headers = {
     P_CLOTERECEP: body.P_CLOTERECEP,
@@ -203,61 +203,139 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     const tamanosFuentesPorClase2 = {};
   
     // Iterar sobre las clases de las tablas
-    for (let i = 1; i <= 7; i++) {
-      // Encuentra el número de filas para la tabla con la clase 'seg_resultN'
-      const numFilasSegResultN = (
-        fullHtml.match(
-          new RegExp(`<table class="seg_result${i}">[\\s\\S]*?<\\/table>`, "g")
-        ) || [""]
-      ).reduce((acc, table) => {
-        return acc + (table.match(/<tr/g) || []).length;
-      }, 0);
+    // for (let i = 1; i <= 7; i++) {
+    //   // Encuentra el número de filas para la tabla con la clase 'seg_resultN'
+    //   const numFilasSegResultN = (
+    //     fullHtml.match(
+    //       new RegExp(`<table class="seg_result${i}">[\\s\\S]*?<\\/table>`, "g")
+    //     ) || [""]
+    //   ).reduce((acc, table) => {
+    //     return acc + (table.match(/<tr/g) || []).length;
+    //   }, 0);
   
-      // Calcula el tamaño de fuente para la tabla 'seg_resultN'
-      const tamanoFuenteSegResultN = calcularTamanoFuente(numFilasSegResultN);
+    //   // Calcula el tamaño de fuente para la tabla 'seg_resultN'
+    //   const tamanoFuenteSegResultN = calcularTamanoFuente(numFilasSegResultN);
   
-      // Almacena el tamaño de fuente calculado en el objeto
-      tamanosFuentesPorClase[`seg_result${i}`] = tamanoFuenteSegResultN;
-      tamanosFuentesPorClase2[`seg_result${i}`] =
-        tamanoFuenteSegResultN + numFilasSegResultN;
+    //   // Almacena el tamaño de fuente calculado en el objeto
+    //   tamanosFuentesPorClase[`seg_result${i}`] = tamanoFuenteSegResultN;
+    //   tamanosFuentesPorClase2[`seg_result${i}`] =
+    //     tamanoFuenteSegResultN + numFilasSegResultN;
   
-      // Aplica el tamaño de fuente al estilo de la tabla 'seg_resultN'
-      fullHtml = fullHtml.replace(
-        new RegExp(`class="seg_result${i}"`, "g"),
-        `class="seg_result${i}" style="font-size: ${tamanoFuenteSegResultN}"`
-      );
+    //   // Aplica el tamaño de fuente al estilo de la tabla 'seg_resultN'
+    //   fullHtml = fullHtml.replace(
+    //     new RegExp(`class="seg_result${i}"`, "g"),
+    //     `class="seg_result${i}" style="font-size: ${tamanoFuenteSegResultN}"`
+    //   );
   
    
   
-      // Construye la expresión regular con la variable claseTabla
-      const matchPattern = new RegExp(
+    //   // Construye la expresión regular con la variable claseTabla
+    //   const matchPattern = new RegExp(
+    //     `<table class="seg_result${i}"[^>]*>(.*?)<tr\\s+id="utima_linea"\\s+class="CoCo0">`,
+    //     "gs"
+    //   );
+    //   const match = fullHtml.match(matchPattern);
+    //   console.log(match, i);
+  
+    //   // Verificar si se encontró una coincidencia
+    //   if (match !== null && numFilasSegResultN > 18) {
+    //     fullHtml = fullHtml.replace(
+    //       /<tr\s+id="utima_linea"\s+class="CoCo10">/g,
+    //       `</table> 
+    //       <div>
+    //         <h1>
+    //           <b>
+    //             C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+    //           </b>
+    //         <h1>
+    //       </div>
+    //       <div style="page-break-before: always;">
+    //       <h1>${i}</h1>
+    //       ${match}`
+    //     );
+    //   } else {
+    //     console.log(
+    //       "No se encontró ninguna coincidencia para el patrón especificado."
+    //     );
+    //   }
+    // }
+    let primerReemplazo = 1;
+
+for (let i = 1; i <= 10; i++) {
+    // Encuentra el número de filas para la tabla con la clase 'seg_resultN'
+    const numFilasSegResultN = (
+        fullHtml.match(
+            new RegExp(`<table class="seg_result${i}">[\\s\\S]*?<\\/table>`, "g")
+        ) || [""]
+    ).reduce((acc, table) => {
+        return acc + (table.match(/<tr/g) || []).length;
+    }, 0);
+
+    // Calcula el tamaño de fuente para la tabla 'seg_resultN'
+    const tamanoFuenteSegResultN = calcularTamanoFuente(numFilasSegResultN);
+
+    // Almacena el tamaño de fuente calculado en el objeto
+    tamanosFuentesPorClase[`seg_result${i}`] = tamanoFuenteSegResultN;
+    tamanosFuentesPorClase2[`seg_result${i}`] =
+        tamanoFuenteSegResultN + numFilasSegResultN;
+
+    // Aplica el tamaño de fuente al estilo de la tabla 'seg_resultN'
+    fullHtml = fullHtml.replace(
+        new RegExp(`class="seg_result${i}"`, "g"),
+        `class="seg_result${i}" style="font-size: ${tamanoFuenteSegResultN}"`
+    );
+
+    // Construye la expresión regular con la variable claseTabla
+    const matchPattern = new RegExp(
         `<table class="seg_result${i}"[^>]*>(.*?)<tr\\s+id="utima_linea"\\s+class="CoCo0">`,
         "gs"
-      );
-      const match = fullHtml.match(matchPattern);
-      // console.log(match, i);
-  
-      // Verificar si se encontró una coincidencia
-      if (match !== null && numFilasSegResultN > 18) {
-        fullHtml = fullHtml.replace(
-          /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
-          `</table> 
-          <div>
-            <h1>
-              <b>
-                C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
-              </b>
-            <h1>
-          </div>
-          <div style="page-break-before: always;">
-          ${match[0]}`
-        );
-      } else {
+    );
+    const match = fullHtml.match(matchPattern);
+    console.log(match, i);
+
+    // Verificar si se encontró una coincidencia
+    if (match !== null && numFilasSegResultN > 18) {
+        if (primerReemplazo==1) {
+            fullHtml = fullHtml.replace(
+                /<tr\s+id="utima_linea"\s+class="CoCo9">/,
+                `</table> 
+                <div>
+                    <h1>
+                        <b>
+                            C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                        </b>
+                    <h1>
+                </div>
+                <div style="page-break-before: always;">
+               
+                ${match}`
+            );
+            primerReemplazo = primerReemplazo + 1;
+        } else if (primerReemplazo==2) {
+            fullHtml = fullHtml.replace(
+                /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+                `</table> 
+                <div>
+                    <h1>
+                        <b>
+                            C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                        </b>
+                    <h1>
+                </div>
+                <div style="page-break-before: always;">
+               
+                ${match}`
+            );
+            primerReemplazo = primerReemplazo + 1;
+
+        }
+    } else {
         console.log(
-          "No se encontró ninguna coincidencia para el patrón especificado."
+            "No se encontró ninguna coincidencia para el patrón especificado."
         );
-      }
     }
+}
+
   
     console.log(
       "Tamaños de fuente para cada clase de tabla:",
@@ -331,7 +409,7 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     await page.setContent(fullHtml);
     await page.pdf(pdfOptions);
      // Escribir el contenido HTML combinado en un archivo HTML
-    //  const htmlFilePath = "output.html";
+     const htmlFilePath = "output.html";
     //  fs.writeFileSync(htmlFilePath, fullHtml);
    
 
