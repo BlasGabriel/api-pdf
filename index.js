@@ -260,8 +260,9 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     //   }
     // }
     let primerReemplazo = 1;
+    let primerReemplazo2 = 1;
 
-for (let i = 1; i <= 10; i++) {
+for (let i = 1; i <= 15; i++) {
     // Encuentra el número de filas para la tabla con la clase 'seg_resultN'
     const numFilasSegResultN = (
         fullHtml.match(
@@ -328,15 +329,118 @@ for (let i = 1; i <= 10; i++) {
             );
             primerReemplazo = primerReemplazo + 1;
 
-        }
+        }else if (primerReemplazo==3) {
+          fullHtml = fullHtml.replace(
+              /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+              `</table> 
+              <div>
+                  <h1>
+                      <b>
+                          C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                      </b>
+                  <h1>
+              </div>
+              <div style="page-break-before: always;">
+             
+              ${match}`
+          );
+          primerReemplazo = primerReemplazo + 1;
+
+      }else if (primerReemplazo==4) {
+        fullHtml = fullHtml.replace(
+            /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+            `</table> 
+            <div>
+                <h1>
+                    <b>
+                        C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                    </b>
+                <h1>
+            </div>
+            <div style="page-break-before: always;">
+           
+            ${match}`
+        );
+        primerReemplazo = primerReemplazo + 1;
+
+    }else if (primerReemplazo==5) {
+      fullHtml = fullHtml.replace(
+          /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+          `</table> 
+          <div>
+              <h1>
+                  <b>
+                      C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                  </b>
+              <h1>
+          </div>
+          <div style="page-break-before: always;">
+         
+          ${match}`
+      );
+      primerReemplazo = primerReemplazo + 1;
+
+  }else if (primerReemplazo==6) {
+    fullHtml = fullHtml.replace(
+        /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+        `</table> 
+        <div>
+            <h1>
+                <b>
+                    C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                </b>
+            <h1>
+        </div>
+        <div style="page-break-before: always;">
+       
+        ${match}`
+    );
+    primerReemplazo = primerReemplazo + 1;
+
+}
     } else {
         console.log(
             "No se encontró ninguna coincidencia para el patrón especificado."
         );
     }
-}
+    // Verificar si se encontró una coincidencia
+    if (match !== null && numFilasSegResultN > 28) {
+      if (primerReemplazo2==1) {
+        fullHtml = fullHtml.replace(
+            /<tr\s+id="utima_linea"\s+class="CoCo18">/,
+            `</table> 
+            <div>
+                <h1>
+                    <b>
+                        C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                    </b>
+                <h1>
+            </div>
+            <div style="page-break-before: always;">
+           
+            ${match}`
+        );
+        primerReemplazo2 = primerReemplazo2 + 1;
+    } else if (primerReemplazo2==2) {
+        fullHtml = fullHtml.replace(
+            /<tr\s+id="utima_linea"\s+class="CoCo18">/g,
+            `</table> 
+            <div>
+                <h1>
+                    <b>
+                        C: Cumple con el rango de referencia; NC: No cumple con el rango de referencia. Los resultados se relacionan unicamente a las muestras recibidas en el Laboratorio.
+                    </b>
+                <h1>
+            </div>
+            <div style="page-break-before: always;">
+           
+            ${match}`
+        );
+        primerReemplazo2 = primerReemplazo2 + 1;
 
-  
+    }    }
+      
+}
     console.log(
       "Tamaños de fuente para cada clase de tabla:",
       tamanosFuentesPorClase2
