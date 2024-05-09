@@ -2,6 +2,8 @@ const express = require("express");
 const puppeteer = require("puppeteer");
 const axios = require("axios");
 const fs = require("fs");
+const http = require('http');
+
 
 const imageBuffer = fs.readFileSync("./Logo.CHDS.png");
 
@@ -30,7 +32,7 @@ app.post("/generate-pdf", async (req, res) => {
         produto: htmlContent.items[0].produto,
         lote: htmlContent.items[0].lote,
       };
-  
+      console.log(data);
       let combinedHtml = "";
   
       htmlContent.items.forEach((item, index) => {
@@ -60,8 +62,10 @@ app.post("/generate-pdf", async (req, res) => {
   
 
 async function makeHtmlRequest(body) {
-  const url = "http://143.255.140.32:5580/ords/scvchds/aq/aqHtml";
-
+  // const url = "http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml";
+  const url = "http://192.168.10.55:8080/ords/orclpdb1/scvchds/aq/aqHtml";
+  // http://190.128.136.58/
+  // http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml
   const headers = {
     P_CLOTERECEP: body.P_CLOTERECEP,
     P_FIL_NCODITPETAP: body.P_FIL_NCODITPETAP,
@@ -70,15 +74,49 @@ async function makeHtmlRequest(body) {
     P_TPFORMSEARCH: body.P_TPFORMSEARCH,
   };
 
+  console.log(headers);
+
   try {
     const response = await axios.get(url, { headers });
+    // console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error al hacer la solicitud HTTP:", error);
     throw error;
   }
-}
 
+// !============================================================================
+
+// const options = {
+//   method: 'GET',
+//   headers: headers,
+// };
+
+// return new Promise((resolve, reject) => {
+//   const req = http.request(url, options, (res) => {
+//     let data = '';
+//     res.on('data', (chunk) => {
+//       data += chunk;
+//     });
+//     res.on('end', () => {
+//       resolve(data);
+//     });
+//   });
+
+//   req.on('error', (error) => {
+//     console.error("Error al hacer la solicitud HTTP:", error);
+//     reject(error);
+//   });
+
+//   console.log("Petición HTTP enviada");
+//   console.log(req);
+//   req.end();
+// });
+
+
+// !============================================================================
+}
 async function htmlToPdf(tableHtml, outputPath, data) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -198,6 +236,13 @@ async function htmlToPdf(tableHtml, outputPath, data) {
   
   
     // !-------------------------------------------------------
+    // {
+    //   "P_CLOTERECEP": "PD-02",
+    //   "P_FIL_NCODITPETAP": "-1",
+    //   "P_NCODITPORIG": "2",
+    //   "P_NCODIMERCA": "1543",
+    //   "P_TPFORMSEARCH": "C"
+    // }
     // Objeto que mapea las clases de las tablas con sus respectivos tamaños de fuente
     const tamanosFuentesPorClase = {};
     const tamanosFuentesPorClase2 = {};
@@ -259,6 +304,7 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     //     );
     //   }
     // }
+
     let primerReemplazo = 1;
     let primerReemplazo2 = 1;
 
@@ -292,7 +338,7 @@ for (let i = 1; i <= 15; i++) {
         "gs"
     );
     const match = fullHtml.match(matchPattern);
-    console.log(match, i);
+    // console.log(match, i);
 
     // Verificar si se encontró una coincidencia
     if (match !== null && numFilasSegResultN > 18) {
@@ -441,10 +487,10 @@ for (let i = 1; i <= 15; i++) {
     }    }
       
 }
-    console.log(
-      "Tamaños de fuente para cada clase de tabla:",
-      tamanosFuentesPorClase2
-    );
+    // console.log(
+    //   "Tamaños de fuente para cada clase de tabla:",
+    //   tamanosFuentesPorClase2
+    // );
   
     
   
@@ -462,11 +508,11 @@ for (let i = 1; i <= 15; i++) {
       <td style="width: 10%; border: 1px solid black;">CHDS-RE-134</td>
   </tr>
       <td style="width: 10%; border: 1px solid black;"><strong>Revisión </strong> </td>
-      <td style="width: 10%; border: 1px solid black;"> 01</td>
+      <td style="width: 10%; border: 1px solid black;"> 02</td>
     </tr>
   <tr>
       <td style="border: 1px solid black;"><strong>Vigencia </strong> </td>
-      <td style="border: 1px solid black;">01/01/2024</td>
+      <td style="border: 1px solid black;">07-05-2024</td>
     </tr>
   <tr>
     
@@ -497,10 +543,23 @@ for (let i = 1; i <= 15; i++) {
      displayHeaderFooter: true, // Mostrar encabezado y pie de página
      headerTemplate, // Establecer el encabezado personalizado
      footerTemplate: `
-                      <div style="font-size: 10px; padding-top: 10px; width: 100%; margin-left: 17px; margin-right: 17px;">
-                          <span style="float: left;  color: red;">DOCUMENTO CONFIDENCIAL</span>
-                          <span style="float: right;">Ref.: CHDS-PRO-015</span>
-                      </div>`,
+      <div style="font-size: 10px; padding-top: 10px; width: 30%; margin-left: 17px; margin-right: 17px;">
+        <span style="float: left;  color: red;">DOCUMENTO CONFIDENCIAL</span>
+      </div> 
+      <div style="font-size: 10px; padding-top: 10px; width: 15%; margin: 0 auto; border-top: 1px solid black; padding-top: 3px; text-align: center;">
+        <span style="float: none;">Revisado</span>
+      </div>
+      <div style="font-size: 10px; padding-top: 10px; width: 10%; margin-left: 17px; margin-right: 17px;">
+      </div>
+      <div style="font-size: 10px; padding-top: 10px; width: 15%; margin: 0 auto; border-top: 1px solid black; padding-top: 3px; text-align: center;">
+        <span style="float: none;">Aproblado</span>
+      </div>
+
+      <div style="font-size: 10px; padding-top: 10px; width: 30%; margin-left: 17px; margin-right: 17px;">
+        <span style="float: right;">Ref.: CHDS-PRO-015</span>
+      </div>
+       `,
+
       margin: {
       //  top: "100px", // Ajustar el margen superior para dejar espacio para el encabezado
          top: "140px", // Ajustar el margen superior para dejar espacio para el encabezado
