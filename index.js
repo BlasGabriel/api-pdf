@@ -341,10 +341,10 @@ for (let i = 1; i <= 15; i++) {
     // console.log(match, i);
 
     // Verificar si se encontró una coincidencia
-    if (match !== null && numFilasSegResultN > 18) {
+    if (match !== null && numFilasSegResultN > 17) {
         if (primerReemplazo==1) {
             fullHtml = fullHtml.replace(
-                /<tr\s+id="utima_linea"\s+class="CoCo9">/,
+                /<tr\s+id="utima_linea"\s+class="CoCo8">/,
                 `</table> 
                 <div>
                     <h1>
@@ -360,7 +360,7 @@ for (let i = 1; i <= 15; i++) {
             primerReemplazo = primerReemplazo + 1;
         } else if (primerReemplazo==2) {
             fullHtml = fullHtml.replace(
-                /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+                /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
                 `</table> 
                 <div>
                     <h1>
@@ -377,7 +377,7 @@ for (let i = 1; i <= 15; i++) {
 
         }else if (primerReemplazo==3) {
           fullHtml = fullHtml.replace(
-              /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+              /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
               `</table> 
               <div>
                   <h1>
@@ -394,7 +394,7 @@ for (let i = 1; i <= 15; i++) {
 
       }else if (primerReemplazo==4) {
         fullHtml = fullHtml.replace(
-            /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+            /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
             `</table> 
             <div>
                 <h1>
@@ -411,7 +411,7 @@ for (let i = 1; i <= 15; i++) {
 
     }else if (primerReemplazo==5) {
       fullHtml = fullHtml.replace(
-          /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+          /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
           `</table> 
           <div>
               <h1>
@@ -428,7 +428,7 @@ for (let i = 1; i <= 15; i++) {
 
   }else if (primerReemplazo==6) {
     fullHtml = fullHtml.replace(
-        /<tr\s+id="utima_linea"\s+class="CoCo9">/g,
+        /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
         `</table> 
         <div>
             <h1>
@@ -450,10 +450,10 @@ for (let i = 1; i <= 15; i++) {
         );
     }
     // Verificar si se encontró una coincidencia
-    if (match !== null && numFilasSegResultN > 28) {
+    if (match !== null && numFilasSegResultN > 27) {
       if (primerReemplazo2==1) {
         fullHtml = fullHtml.replace(
-            /<tr\s+id="utima_linea"\s+class="CoCo18">/,
+            /<tr\s+id="utima_linea"\s+class="CoCo17">/,
             `</table> 
             <div>
                 <h1>
@@ -469,7 +469,7 @@ for (let i = 1; i <= 15; i++) {
         primerReemplazo2 = primerReemplazo2 + 1;
     } else if (primerReemplazo2==2) {
         fullHtml = fullHtml.replace(
-            /<tr\s+id="utima_linea"\s+class="CoCo18">/g,
+            /<tr\s+id="utima_linea"\s+class="CoCo17">/g,
             `</table> 
             <div>
                 <h1>
