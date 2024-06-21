@@ -62,8 +62,9 @@ app.post("/generate-pdf", async (req, res) => {
   
 
 async function makeHtmlRequest(body) {
-  // const url = "http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml";
-  const url = "http://192.168.10.55:8080/ords/orclpdb1/scvchds/aq/aqHtml";
+  const url = "http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml";
+  // const url = "http://192.168.10.55:8080/ords/orclpdb1/scvchds/aq/aqHtml";
+ // http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml
   // http://190.128.136.58/
   // http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml
   const headers = {
@@ -225,11 +226,54 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     
           #utima_linea:nth-child(odd) {
             background-color: white; /* Color de fondo blanco para filas impares */
-          }
+          }.
+          .footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+            position: relative; /* Cambiamos a position: relative; */
+            margin-top: auto; /* Empuja el pie de página hacia abajo */
+            bottom: 0; /* Asegura que esté al final */
+            background-color: rgba(241, 241, 241, 0.7); /* Fondo con opacidad */
+                        height: 60px; /* Altura del pie de página */
+
+
+        }
+                body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+            .footer-content {
+            opacity: 0.7; /* Opacidad del contenido del pie de página */
+        }
         </style>
       </head>
       <body>
         ${tableHtml}
+        <div  class="footer">
+            <div  class="footer-content">.</div>
+        </div>
+        <div  class="footer">
+            <div class="footer-content">.</div>
+        </div>
+        <div  class="footer">
+            <div class="footer-content">.</div>
+        </div>
+        <div  class="footer">
+            <div class="footer-content">.</div>
+        </div>
+        <div  class="footer">
+            <div>.</div>
+        </div>
+        <div  class="footer">
+            <div>.</div>
+        </div>
+        <div  >
+            <div>Hola</div>
+        </div>
+
       </body>
     </html>
       `);
@@ -546,14 +590,7 @@ for (let i = 1; i <= 15; i++) {
       <div style="font-size: 10px; padding-top: 10px; width: 30%; margin-left: 17px; margin-right: 17px;">
         <span style="float: left;  color: red;">DOCUMENTO CONFIDENCIAL</span>
       </div> 
-      <div style="font-size: 10px; padding-top: 10px; width: 15%; margin: 0 auto; border-top: 1px solid black; padding-top: 3px; text-align: center;">
-        <span style="float: none;">Revisado</span>
-      </div>
-      <div style="font-size: 10px; padding-top: 10px; width: 10%; margin-left: 17px; margin-right: 17px;">
-      </div>
-      <div style="font-size: 10px; padding-top: 10px; width: 15%; margin: 0 auto; border-top: 1px solid black; padding-top: 3px; text-align: center;">
-        <span style="float: none;">Aproblado</span>
-      </div>
+
 
       <div style="font-size: 10px; padding-top: 10px; width: 30%; margin-left: 17px; margin-right: 17px;">
         <span style="float: right;">Ref.: CHDS-PRO-015</span>
@@ -573,7 +610,7 @@ for (let i = 1; i <= 15; i++) {
     await page.pdf(pdfOptions);
      // Escribir el contenido HTML combinado en un archivo HTML
      const htmlFilePath = "output.html";
-    //  fs.writeFileSync(htmlFilePath, fullHtml);
+     fs.writeFileSync(htmlFilePath, fullHtml);
    
 
   await browser.close();
