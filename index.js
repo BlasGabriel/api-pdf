@@ -146,6 +146,10 @@ async function htmlToPdf(tableHtml, outputPath, data) {
       // return html;
     }
   
+    // Elimina el último </div> en tableHtml
+    
+    // let modifiedTableHtml = tableHtml.replace(/<\/div>(?!.*<\/div>)/, '');
+    let modifiedTableHtml = tableHtml;
     // Estructura HTML completa con la tabla recibida y contadores agregados
     let fullHtml = addCounterToTables(`
       <!DOCTYPE html>
@@ -229,7 +233,10 @@ async function htmlToPdf(tableHtml, outputPath, data) {
         </style>
       </head>
       <body>
-        ${tableHtml}
+        ${modifiedTableHtml}
+        <div class="contenedor">Final</div>
+        <div style="margin-top: 50px; text-align: center;"><hr style="width: 200px;">Firma</div>
+           </div>
       </body>
     </html>
       `);
@@ -601,7 +608,7 @@ const headerTemplate = `
     await page.pdf(pdfOptions);
      // Escribir el contenido HTML combinado en un archivo HTML
      const htmlFilePath = "output.html";
-    //  fs.writeFileSync(htmlFilePath, fullHtml);
+     fs.writeFileSync(htmlFilePath, fullHtml);
    
 
   await browser.close();
