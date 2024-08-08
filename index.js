@@ -62,9 +62,8 @@ app.post("/generate-pdf", async (req, res) => {
   
 
 async function makeHtmlRequest(body) {
-  const url = "http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml";
+  const url = "http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml2";
   // const url = "http://192.168.10.55:8080/ords/orclpdb1/scvchds/aq/aqHtml";
- // http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml
   // http://190.128.136.58/
   // http://143.255.140.32:5580/ords/orclpdb1/scvchds/aq/aqHtml
   const headers = {
@@ -125,13 +124,13 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     // Función para calcular el tamaño de fuente basado en el número de filas
     function calcularTamanoFuente(numFilas) {
       if (numFilas >= 1 && numFilas <= 10) {
-        return "12px";
-      } else if (numFilas >= 11 && numFilas <= 15) {
         return "11px";
+      } else if (numFilas >= 11 && numFilas <= 15) {
+        return "10px";
       } else if (numFilas >= 16 && numFilas <= 18) {
-        return "10px";
+        return "9px";
       } else {
-        return "10px";
+        return "8px";
       }
     }
   
@@ -226,54 +225,11 @@ async function htmlToPdf(tableHtml, outputPath, data) {
     
           #utima_linea:nth-child(odd) {
             background-color: white; /* Color de fondo blanco para filas impares */
-          }.
-          .footer {
-            background-color: #f1f1f1;
-            padding: 10px;
-            text-align: center;
-            position: relative; /* Cambiamos a position: relative; */
-            margin-top: auto; /* Empuja el pie de página hacia abajo */
-            bottom: 0; /* Asegura que esté al final */
-            background-color: rgba(241, 241, 241, 0.7); /* Fondo con opacidad */
-                        height: 60px; /* Altura del pie de página */
-
-
-        }
-                body {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-            .footer-content {
-            opacity: 0.7; /* Opacidad del contenido del pie de página */
-        }
+          }
         </style>
       </head>
       <body>
         ${tableHtml}
-        <div  class="footer">
-            <div  class="footer-content">.</div>
-        </div>
-        <div  class="footer">
-            <div class="footer-content">.</div>
-        </div>
-        <div  class="footer">
-            <div class="footer-content">.</div>
-        </div>
-        <div  class="footer">
-            <div class="footer-content">.</div>
-        </div>
-        <div  class="footer">
-            <div>.</div>
-        </div>
-        <div  class="footer">
-            <div>.</div>
-        </div>
-        <div  >
-            <div>Hola</div>
-        </div>
-
       </body>
     </html>
       `);
@@ -388,7 +344,7 @@ for (let i = 1; i <= 15; i++) {
     if (match !== null && numFilasSegResultN > 17) {
         if (primerReemplazo==1) {
             fullHtml = fullHtml.replace(
-                /<tr\s+id="utima_linea"\s+class="CoCo8">/,
+                /<tr\s+id="utima_linea"\s+class="CoCo7">/,
                 `</table> 
                 <div>
                     <h1>
@@ -404,7 +360,7 @@ for (let i = 1; i <= 15; i++) {
             primerReemplazo = primerReemplazo + 1;
         } else if (primerReemplazo==2) {
             fullHtml = fullHtml.replace(
-                /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
+                /<tr\s+id="utima_linea"\s+class="CoCo7">/g,
                 `</table> 
                 <div>
                     <h1>
@@ -421,7 +377,7 @@ for (let i = 1; i <= 15; i++) {
 
         }else if (primerReemplazo==3) {
           fullHtml = fullHtml.replace(
-              /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
+              /<tr\s+id="utima_linea"\s+class="CoCo7">/g,
               `</table> 
               <div>
                   <h1>
@@ -438,7 +394,7 @@ for (let i = 1; i <= 15; i++) {
 
       }else if (primerReemplazo==4) {
         fullHtml = fullHtml.replace(
-            /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
+            /<tr\s+id="utima_linea"\s+class="CoCo7">/g,
             `</table> 
             <div>
                 <h1>
@@ -455,7 +411,7 @@ for (let i = 1; i <= 15; i++) {
 
     }else if (primerReemplazo==5) {
       fullHtml = fullHtml.replace(
-          /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
+          /<tr\s+id="utima_linea"\s+class="CoCo7">/g,
           `</table> 
           <div>
               <h1>
@@ -472,7 +428,7 @@ for (let i = 1; i <= 15; i++) {
 
   }else if (primerReemplazo==6) {
     fullHtml = fullHtml.replace(
-        /<tr\s+id="utima_linea"\s+class="CoCo8">/g,
+        /<tr\s+id="utima_linea"\s+class="CoCo7">/g,
         `</table> 
         <div>
             <h1>
@@ -535,49 +491,77 @@ for (let i = 1; i <= 15; i++) {
     //   "Tamaños de fuente para cada clase de tabla:",
     //   tamanosFuentesPorClase2
     // );
+
+    // Obtener la fecha y hora actual
+const currentDateTime = new Date();
+const formattedDateTime = currentDateTime.toLocaleString('es-ES', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit'
+});
   
     
   
-    // Configurar el encabezado de cada página
-    const headerTemplate = `
-    <table style="width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid black; margin-left: 17px; margin-right: 17px;">
-    <tr>
-      <td rowspan="4" style="width: 15%; vertical-align: middle; text-align: center; border: 1px solid black;">
-   
+   // Configurar el encabezado de cada página
+const headerTemplate = `
+<table style="width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid black; margin-left: 17px; margin-right: 17px;">
+  <tr>
+    <td rowspan="4" style="width: 15%; vertical-align: middle; text-align: center; border: 1px solid black;">
       <img src="data:image/png;base64,${imageBuffer.toString('base64')}" width="100%" height="auto">
-  
-      </td>
-      <td rowspan="4" style="width: 65%; vertical-align: middle; text-align: center; font-size: 25px; border: 1px solid black;">Seguimiento  de Resultados</td>
-      <td style="width: 10%; border: 1px solid black;"><strong> Código </strong> </td>
-      <td style="width: 10%; border: 1px solid black;">CHDS-RE-134</td>
+    </td>
+    <td rowspan="4" style="width: 65%; vertical-align: middle; text-align: center; font-size: 25px; border: 1px solid black;">
+      Seguimiento de Resultados
+    </td>
+    <td style="width: 10%; border: 1px solid black;"><strong>Código</strong></td>
+    <td style="width: 10%; border: 1px solid black;">CHDS-RE-134</td>
   </tr>
-      <td style="width: 10%; border: 1px solid black;"><strong>Revisión </strong> </td>
-      <td style="width: 10%; border: 1px solid black;"> 02</td>
-    </tr>
   <tr>
-      <td style="border: 1px solid black;"><strong>Vigencia </strong> </td>
-      <td style="border: 1px solid black;">07-05-2024</td>
-    </tr>
+    <td style="width: 10%; border: 1px solid black;"><strong>Revisión</strong></td>
+    <td style="width: 10%; border: 1px solid black;">02</td>
+  </tr>
   <tr>
-    
-      <td style="border: 1px solid black;"><strong>Página </strong></td>
-      <td style="border: 1px solid black;"> <span class="pageNumber"></span> / <span class="totalPages"></span></td>
-    </tr>
-    <tr>
+    <td style="border: 1px solid black;"><strong>Vigencia</strong></td>
+    <td style="border: 1px solid black;">07-05-2024</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;"><strong>Página</strong></td>
+    <td style="border: 1px solid black;"><span class="pageNumber"></span> / <span class="totalPages"></span></td>
+  </tr>
+  <tr>
     <td colspan="4" style="border: 1px solid black;">
-    <p style="white-space: nowrap; margin: 2; display: inline;">
-      <strong>Productos:</strong>${ data.produto }</p>
-      <p style="white-space: nowrap; margin: 2; display: inline;"><strong>Fecha de actualización de rango: </strong>${ data.data_parametro } </p>         
-      <p style="white-space: nowrap; margin: 2; display: inline;"> <strong >Responsable:</strong>${data.usuar_parametro }</p>
-    </br>
-    <p style="white-space: nowrap; margin: 0; display: inline;  "><strong>Lote:</strong> ${ data.lote }</p>
-    <p style="white-space: nowrap; margin: 0; display: inline;" margin-left: 100px;"><strong>Origen:</strong> ${ data.cdesctporig }</p>
-  </td>
-  
+      <div style="display: flex; justify-content: space-between;">
+        <div>
+          <p style="white-space: nowrap; margin: 2; display: inline;">
+            <strong>Productos:</strong> ${data.produto}
+          </p>
+          <p style="white-space: nowrap; margin: 2; display: inline;">
+            <strong>Fecha de actualización de rango:</strong> ${data.data_parametro}
+          </p>
+          <p style="white-space: nowrap; margin: 2; display: inline;">
+            <strong>Responsable:</strong> ${data.usuar_parametro}
+          </p>
+          <br>
+          <p style="white-space: nowrap; margin: 0; display: inline;">
+            <strong>Lote:</strong> ${data.lote}
+          </p>
+          <p style="white-space: nowrap; margin: 0; display: inline;">
+            <strong>Origen:</strong> ${data.cdesctporig}
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <p style="white-space: nowrap; margin: 0; display: inline;">
+            <strong>Fecha y Hora de Impresión:</strong> ${formattedDateTime}
+          </p>
+        </div>
+      </div>
+    </td>
   </tr>
-  </table>
-  
-      `;
+</table>
+`;
+
     // Generar el PDF
     const pdfOptions = {
       path: outputPath,
@@ -590,7 +574,14 @@ for (let i = 1; i <= 15; i++) {
       <div style="font-size: 10px; padding-top: 10px; width: 30%; margin-left: 17px; margin-right: 17px;">
         <span style="float: left;  color: red;">DOCUMENTO CONFIDENCIAL</span>
       </div> 
-
+      <div style="font-size: 10px; padding-top: 10px; width: 15%; margin: 0 auto; border-top: 1px solid black; padding-top: 3px; text-align: center;">
+        <span style="float: none;">Revisado</span>
+      </div>
+      <div style="font-size: 10px; padding-top: 10px; width: 10%; margin-left: 17px; margin-right: 17px;">
+      </div>
+      <div style="font-size: 10px; padding-top: 10px; width: 15%; margin: 0 auto; border-top: 1px solid black; padding-top: 3px; text-align: center;">
+        <span style="float: none;">Aproblado</span>
+      </div>
 
       <div style="font-size: 10px; padding-top: 10px; width: 30%; margin-left: 17px; margin-right: 17px;">
         <span style="float: right;">Ref.: CHDS-PRO-015</span>
@@ -610,7 +601,7 @@ for (let i = 1; i <= 15; i++) {
     await page.pdf(pdfOptions);
      // Escribir el contenido HTML combinado en un archivo HTML
      const htmlFilePath = "output.html";
-     fs.writeFileSync(htmlFilePath, fullHtml);
+    //  fs.writeFileSync(htmlFilePath, fullHtml);
    
 
   await browser.close();
